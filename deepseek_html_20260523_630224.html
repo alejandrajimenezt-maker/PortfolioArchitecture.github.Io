@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>LAJT | Estudio de Arquitectura Contemporánea</title>
+    <!-- Google Fonts + Iconos Minimalistas (Font Awesome 6 Free via CDN) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- AOS Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FEFCF5;
+            color: #1E1E1E;
+            line-height: 1.4;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Variables de diseño premium */
+        :root {
+            --beige: #FEFCF5;
+            --olive: #6B705C;
+            --dark: #1E1E1E;
+            --sand: #F2F0EB;
+            --gray-soft: #4a4a4a;
+            --shadow-sm: 0 8px 20px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 25px 35px -12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        /* Glassmorphism Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            backdrop-filter: blur(16px);
+            background: rgba(254, 252, 245, 0.8);
+            border-bottom: 1px solid rgba(107, 112, 92, 0.2);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--dark);
+            line-height: 1;
+        }
+        .logo-sub {
+            font-size: 0.7rem;
+            letter-spacing: 0.3px;
+            color: var(--olive);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.8rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--dark);
+            transition: color 0.2s;
+        }
+        .nav-links a:hover { color: var(--olive); }
+        .quick-nav-btn {
+            background: transparent;
+            border: 1px solid rgba(107,112,92,0.3);
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .quick-nav-btn:hover {
+            background: var(--olive);
+            color: var(--beige);
+            border-color: var(--olive);
+        }
+        .lang-selector {
+            display: flex;
+            gap: 0.3rem;
+            background: rgba(242,240,235,0.6);
+            padding: 0.2rem 0.6rem;
+            border-radius: 40px;
+        }
+        .lang-btn {
+            background: none;
+            border: none;
+            font-weight: 500;
+            font-size: 0.75rem;
+            cursor: pointer;
+            padding: 0.2rem 0.6rem;
+            border-radius: 30px;
+            transition: 0.2s;
+        }
+        .lang-btn.active {
+            background: var(--olive);
+            color: var(--beige);
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            filter: brightness(0.7);
+        }
+        .hero-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.45) 100%);
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 780px;
+            text-align: center;
+            padding: 2rem;
+            background: rgba(254,252,245,0.15);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            border: 1px solid rgba(255,255,255,0.25);
+        }
+        .hero-content h1 {
+            font-size: clamp(2rem, 5vw, 3.8rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: white;
+        }
+        .hero-content p {
+            font-size: 1.2rem;
+            margin: 1.5rem 0;
+            color: white;
+        }
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn-primary, .btn-outline {
+            padding: 0.8rem 2rem;
+            border-radius: 40px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+            border: none;
+        }
+        .btn-primary {
+            background: var(--olive);
+            color: var(--beige);
+        }
+        .btn-primary:hover { background: #4e5242; transform: scale(1.02); }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid white;
+            color: white;
+        }
+        .btn-outline:hover {
+            background: white;
+            color: var(--dark);
+        }
+
+        /* Secciones */
+        .section {
+            padding: 100px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .section-title {
+            font-size: 2.6rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            margin-bottom: 0.8rem;
+        }
+        .section-sub {
+            color: var(--olive);
+            margin-bottom: 3rem;
+            border-left: 3px solid var(--olive);
+            padding-left: 1rem;
+            font-weight: 400;
+        }
+        .grid-projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 2rem;
+        }
+        .project-card {
+            background: var(--sand);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            cursor: pointer;
+        }
+        .project-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-md);
+        }
+        .card-img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .project-card:hover .card-img { transform: scale(1.02); }
+        .card-content {
+            padding: 1.5rem;
+        }
+        .card-category {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--olive);
+            font-weight: 600;
+        }
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 0.5rem 0;
+        }
+        .card-desc {
+            color: var(--gray-soft);
+            margin: 0.8rem 0;
+            line-height: 1.4;
+            font-size: 0.9rem;
+        }
+        .project-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 1rem 0 0.5rem;
+            font-size: 0.75rem;
+            color: var(--olive);
+        }
+        .project-meta i {
+            width: 20px;
+            color: var(--olive);
+            margin-right: 0.3rem;
+        }
+        .btn-project {
+            background: none;
+            border: none;
+            color: var(--olive);
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            transition: 0.2s;
+        }
+        .btn-project:hover { letter-spacing: 0.5px; }
+
+        /* Especialidades */
+        .specials-grid {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .spec-card {
+            flex: 1;
+            min-width: 200px;
+            background: rgba(242,240,235,0.6);
+            backdrop-filter: blur(4px);
+            padding: 2rem;
+            border-radius: 28px;
+            text-align: center;
+            transition: 0.3s;
+            border: 1px solid rgba(107,112,92,0.15);
+        }
+        .spec-card:hover { background: #E8E0D5; transform: scale(1.02); }
+
+        /* About */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        .about-img {
+            width: 100%;
+            border-radius: 28px;
+            object-fit: cover;
+            height: 420px;
+            background: var(--sand);
+        }
+        .qr-img {
+            width: 100px;
+            margin-top: 1rem;
+            border-radius: 12px;
+        }
+
+        /* Contacto */
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            background: var(--sand);
+            padding: 2rem;
+            border-radius: 32px;
+        }
+        .contact-item {
+            flex: 1;
+        }
+        footer {
+            background: var(--dark);
+            color: var(--beige);
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        /* Modo edición */
+        .edit-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--dark);
+            color: var(--beige);
+            border: none;
+            border-radius: 60px;
+            padding: 0.8rem 1.5rem;
+            font-weight: 600;
+            z-index: 1100;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            backdrop-filter: blur(8px);
+            transition: 0.2s;
+        }
+        .edit-mode-active [contenteditable="true"] {
+            background: rgba(107,112,92,0.15);
+            border-radius: 8px;
+            padding: 0 0.2rem;
+            outline: 1px dashed var(--olive);
+        }
+        .editable-img {
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        /* Modal Galería / Proyecto */
+        .modal-overlay {
+            position: fixed;
+            top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.3s;
+        }
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .modal-container {
+            background: var(--beige);
+            width: 90%;
+            max-width: 1300px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 32px;
+            padding: 2rem;
+            position: relative;
+        }
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        .gallery-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .gallery-thumb {
+            width: 150px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+            border: 2px solid transparent;
+        }
+        .gallery-thumb:hover { transform: scale(1.02); border-color: var(--olive); }
+        .gallery-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .lightbox {
+            position: fixed;
+            top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity:0;
+        }
+        .lightbox.active { visibility: visible; opacity:1; }
+        .lightbox img { max-width: 90%; max-height: 80%; object-fit: contain; }
+        @media (max-width: 768px) {
+            .nav-container { flex-direction: column; align-items: stretch; }
+            .nav-links { justify-content: center; }
+            .about-grid { grid-template-columns: 1fr; }
+            .section-title { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="logo-area">
+            <div class="logo">LAJT</div>
+            <div class="logo-sub" data-i18n="logo_sub">Laura Alejandra Jiménez Tinjacá</div>
+        </div>
+        <div class="nav-links">
+            <a href="#" data-nav="inicio">Inicio</a>
+            <a href="#" data-nav="sobre">Sobre mí</a>
+            <a href="#" data-nav="contacto">Contacto</a>
+            <button class="quick-nav-btn" data-section="urbanismo">Urbanismo</button>
+            <button class="quick-nav-btn" data-section="arquitectura">Arquitectura</button>
+            <button class="quick-nav-btn" data-section="interiorismo">Interiorismo</button>
+            <div class="lang-selector">
+                <button class="lang-btn active" data-lang="es">ES</button>
+                <button class="lang-btn" data-lang="en">EN</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+    <img class="hero-bg editable-img" id="heroImage" src="https://images.pexels.com/photos/276724/pexels-photo-276724.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content" data-aos="fade-up">
+        <h1 data-i18n="hero_title">Diseño Arquitectura, Urbanismo e Interiorismo</h1>
+        <p data-i18n="hero_sub">Espacios contemporáneos con visión humana y sostenibilidad integral.</p>
+        <div class="btn-group">
+            <button class="btn-primary" id="scrollProjectsBtn" data-i18n="hero_btn_projects">Ver proyectos</button>
+            <button class="btn-outline" id="contactScrollBtn" data-i18n="hero_btn_contact">Contacto</button>
+        </div>
+    </div>
+</section>
+
+<!-- Secciones dinámicas proyectos -->
+<section class="section" id="urbanismo"><h2 class="section-title" data-i18n="urban_title">Urbanismo</h2><div class="section-sub" data-i18n="urban_sub">Proyectos metropolitanos y movilidad sostenible</div><div id="urban-grid" class="grid-projects"></div></section>
+<section class="section" id="arquitectura"><h2 class="section-title" data-i18n="arq_title">Arquitectura</h2><div class="section-sub" data-i18n="arq_sub">Edificios emblemáticos y diseño contextual</div><div id="arq-grid" class="grid-projects"></div></section>
+<section class="section" id="interiorismo"><h2 class="section-title" data-i18n="int_title">Interiorismo</h2><div class="section-sub" data-i18n="int_sub">Ambientes funcionales y estética contemporánea</div><div id="int-grid" class="grid-projects"></div></section>
+
+<!-- Especialidades -->
+<section class="section"><h2 class="section-title" data-i18n="especialidades_title">Especialidades</h2><div class="specials-grid"><div class="spec-card"><i class="fas fa-city" style="font-size:2rem; color:var(--olive); margin-bottom:1rem; display:block;"></i><h3 data-i18n="esp_urban">Urbanismo</h3><p data-i18n="esp_urban_txt">Planificación estratégica, espacios públicos activos.</p></div><div class="spec-card"><i class="fas fa-drafting-compass" style="font-size:2rem; color:var(--olive); margin-bottom:1rem;"></i><h3 data-i18n="esp_arq">Arquitectura</h3><p data-i18n="esp_arq_txt">Diseño bioclimático, materialidad y pureza formal.</p></div><div class="spec-card"><i class="fas fa-couch" style="font-size:2rem; color:var(--olive); margin-bottom:1rem;"></i><h3 data-i18n="esp_int">Interiorismo</h3><p data-i18n="esp_int_txt">Luz, textura y ergonomía para espacios únicos.</p></div></div></section>
+
+<!-- Sobre mí -->
+<section class="section" id="sobre"><h2 class="section-title" data-i18n="about_title">Sobre mí</h2><div class="about-grid"><img id="profilePhoto" class="about-img editable-img" src="https://images.pexels.com/photos/380769/pexels-photo-380769.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Laura"><div><div id="bioText" contenteditable="false" data-i18n="about_bio">Arquitecta con 12 años de experiencia en proyectos urbanos y residenciales de alta gama, fundadora de LAJT Estudio. Defensora del diseño sostenible y la integración social.</div><div id="philosophyText" contenteditable="false" style="margin-top:1rem;" data-i18n="about_philo">“Creo en la arquitectura que respira, que dialoga con su entorno y mejora la vida de las personas.”</div><img id="qrImage" class="qr-img editable-img" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://lajt-estudio.com" alt="QR"><button id="downloadCV" class="btn-primary" style="margin-top:1.5rem;" data-i18n="download_cv">Descargar CV</button></div></div></section>
+
+<!-- Contacto sin Instagram -->
+<section class="section" id="contacto"><h2 class="section-title" data-i18n="contact_title">Contacto</h2><div class="contact-info"><div class="contact-item"><i class="fas fa-phone-alt" style="color:var(--olive); margin-right:0.5rem;"></i><strong data-i18n="contact_phone">Teléfono</strong><br><span id="contactPhone" contenteditable="false">+57 601 123 4567</span></div><div class="contact-item"><i class="fas fa-envelope" style="color:var(--olive); margin-right:0.5rem;"></i><strong data-i18n="contact_email">Email</strong><br><span id="contactEmail" contenteditable="false">info@lajt.com</span></div><div class="contact-item"><i class="fab fa-linkedin" style="color:var(--olive); margin-right:0.5rem;"></i><strong>LinkedIn</strong><br><span id="contactLinkedin" contenteditable="false">linkedin.com/in/laurajimenez</span></div></div></section>
+
+<footer><p>LAJT — © 2025 <span data-i18n="footer_rights">Estudio de Arquitectura Contemporánea</span></p></footer>
+<button id="editModeBtn" class="edit-toggle">🔧 Modo edición</button>
+
+<script>
+    // ---------- DATOS PROYECTOS (conservando nombres originales) ----------
+    let projectsData = [
+        { id: 1, categoria: "urbanismo", titleEs: "Corredor peatonal – Metro de la 80", titleEn: "Pedestrian Corridor – Metro 80", descEs: "Renovación urbana integral, espacios peatonales sostenibles.", descEn: "Comprehensive urban renewal, sustainable pedestrian spaces.", ubicacion: "Medellín", año: "2023", programa: "Revit, AutoCAD", img: "https://images.pexels.com/photos/248753/pexels-photo-248753.jpeg?auto=compress&cs=tinysrgb&w=600", galleryImages: [] },
+        { id: 2, categoria: "urbanismo", titleEs: "Corredores urbanos – Metro Bogotá", titleEn: "Urban Corridors – Metro Bogotá", descEs: "Integración del sistema metro con el espacio público.", descEn: "Integration of metro system with public space.", ubicacion: "Bogotá", año: "2024", programa: "Rhino, Lumion", img: "https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg?auto=compress&cs=tinysrgb&w=600", galleryImages: [] },
+        { id: 3, categoria: "arquitectura", titleEs: "Edificios de acceso metro de Bogotá", titleEn: "Metro Access Buildings Bogotá", descEs: "Arquitectura funcional y accesible.", descEn: "Functional and accessible architecture.", ubicacion: "Bogotá", año: "2024", programa: "Revit, SketchUp", img: "https://images.pexels.com/photos/280229/pexels-photo-280229.jpeg?auto=compress&cs=tinysrgb&w=600", galleryImages: [] },
+        { id: 4, categoria: "arquitectura", titleEs: "Canal del dique", titleEn: "Canal del Dique", descEs: "Proyecto de infraestructura y recuperación paisajística.", descEn: "Infrastructure and landscape recovery project.", ubicacion: "Bolívar", año: "2022", programa: "AutoCAD, Civil 3D", img: "https://images.pexels.com/photos/259588/pexels-photo-259588.jpeg?auto=compress&cs=tinysrgb&w=600", galleryImages: [] },
+        { id: 5, categoria: "interiorismo", titleEs: "Oficinas Sayco – Bogotá", titleEn: "Sayco Offices – Bogotá", descEs: "Diseño interior corporativo contemporáneo.", descEn: "Contemporary corporate interior design.", ubicacion: "Bogotá", año: "2023", programa: "SketchUp, Enscape", img: "https://images.pexels.com/photos/3843332/pexels-photo-3843332.jpeg?auto=compress&cs=tinysrgb&w=600", galleryImages: [] },
+        { id: 6, categoria: "interiorismo", titleEs: "Diseño Local Comercial", titleEn: "Commercial Local Design", descEs: "Espacios comerciales con identidad de marca.", descEn: "Commercial spaces with brand identity.", ubicacion: "Bogotá", año: "2022", programa: "3ds Max, Corona", img: "https://images.pexels.com/photos/2765287/pexels-photo-2765287.jpeg?auto=compress&cs=tinysrgb&w=600", galleryImages: [] },
+        { id: 7, categoria: "interiorismo", titleEs: "Oficinas Coworking Ingetec – Bogotá", titleEn: "Coworking Offices Ingetec – Bogotá", descEs: "Flexibilidad y bienestar laboral.", descEn: "Flexibility and workplace wellness.", ubicacion: "Bogotá", año: "2024", programa: "Revit, Lumion", img: "https://images.pexels.com/photos/3262593/pexels-photo-3262593.jpeg?auto=compress&cs=tinysrgb&w=600", galleryImages: [] }
+    ];
+
+    let currentLang = localStorage.getItem('lang') || 'es';
+    let editMode = false;
+    const EDIT_PASSWORD = "laura2025";
+
+    // Traducciones estáticas
+    const translations = { es: { logo_sub: "Laura Alejandra Jiménez Tinjacá", hero_title: "Diseño Arquitectura, Urbanismo e Interiorismo", hero_sub: "Espacios contemporáneos con visión humana y sostenibilidad integral.", hero_btn_projects: "Ver proyectos", hero_btn_contact: "Contacto", urban_title: "Urbanismo", urban_sub: "Proyectos metropolitanos y movilidad sostenible", arq_title: "Arquitectura", arq_sub: "Edificios emblemáticos y diseño contextual", int_title: "Interiorismo", int_sub: "Ambientes funcionales y estética contemporánea", especialidades_title: "Especialidades", esp_urban: "Urbanismo", esp_urban_txt: "Planificación estratégica, espacios públicos activos.", esp_arq: "Arquitectura", esp_arq_txt: "Diseño bioclimático, materialidad y pureza formal.", esp_int: "Interiorismo", esp_int_txt: "Luz, textura y ergonomía para espacios únicos.", about_title: "Sobre mí", about_bio: "Arquitecta con 12 años de experiencia en proyectos urbanos y residenciales de alta gama, fundadora de LAJT Estudio. Defensora del diseño sostenible y la integración social.", about_philo: "“Creo en la arquitectura que respira, que dialoga con su entorno y mejora la vida de las personas.”", download_cv: "Descargar CV", contact_title: "Contacto", contact_phone: "Teléfono", contact_email: "Email", footer_rights: "Estudio de Arquitectura Contemporánea" },
+      en: { logo_sub: "Laura Alejandra Jiménez Tinjacá", hero_title: "Architecture, Urbanism & Interior Design", hero_sub: "Contemporary spaces with human vision and integral sustainability.", hero_btn_projects: "View projects", hero_btn_contact: "Contact", urban_title: "Urbanism", urban_sub: "Metropolitan projects & sustainable mobility", arq_title: "Architecture", arq_sub: "Iconic buildings & contextual design", int_title: "Interior Design", int_sub: "Functional environments & contemporary aesthetics", especialidades_title: "Expertise", esp_urban: "Urbanism", esp_urban_txt: "Strategic planning, active public spaces.", esp_arq: "Architecture", esp_arq_txt: "Bioclimatic design, materiality and formal purity.", esp_int: "Interiorism", esp_int_txt: "Light, texture and ergonomics for unique spaces.", about_title: "About me", about_bio: "Architect with 12 years of experience in high-end urban and residential projects, founder of LAJT Studio. Advocate of sustainable design and social integration.", about_philo: "“I believe in architecture that breathes, dialogues with its environment and improves people's lives.”", download_cv: "Download CV", contact_title: "Contact", contact_phone: "Phone", contact_email: "Email", footer_rights: "Contemporary Architecture Studio" } };
+
+    // Helper guardado localStorage
+    function saveAllData() { localStorage.setItem('projectsDataBackup', JSON.stringify(projectsData)); }
+    function loadSavedData() { let saved = localStorage.getItem('projectsDataBackup'); if(saved) { let parsed = JSON.parse(saved); if(parsed.length) projectsData = parsed; } }
+
+    // Renderizar proyectos
+    function renderProjects() {
+        const containers = { urbanismo: document.getElementById('urban-grid'), arquitectura: document.getElementById('arq-grid'), interiorismo: document.getElementById('int-grid') };
+        Object.values(containers).forEach(c => { if(c) c.innerHTML = ''; });
+        projectsData.forEach(proj => {
+            const title = currentLang === 'es' ? proj.titleEs : proj.titleEn;
+            const desc = currentLang === 'es' ? proj.descEs : proj.descEn;
+            const card = document.createElement('div'); card.className = 'project-card'; card.setAttribute('data-id', proj.id);
+            card.innerHTML = `<img class="card-img editable-img" src="${proj.img}" data-imgkey="proj_${proj.id}"><div class="card-content"><div class="card-category">${proj.categoria.toUpperCase()}</div><div class="card-title" data-field="title" data-id="${proj.id}" contenteditable="${editMode}">${title}</div><div class="card-desc" data-field="desc" data-id="${proj.id}" contenteditable="${editMode}">${desc}</div><div class="project-meta"><i class="fas fa-map-marker-alt"></i><span data-field="ubicacion" data-id="${proj.id}" contenteditable="${editMode}">${proj.ubicacion}</span> <i class="fas fa-calendar-alt" style="margin-left:0.8rem;"></i><span data-field="año" data-id="${proj.id}" contenteditable="${editMode}">${proj.año}</span> <i class="fas fa-code-branch" style="margin-left:0.8rem;"></i><span data-field="programa" data-id="${proj.id}" contenteditable="${editMode}">${proj.programa}</span></div><button class="btn-project" data-view="${proj.id}">${currentLang === 'es' ? 'Explorar proyecto →' : 'Explore project →'}</button></div>`;
+            containers[proj.categoria].appendChild(card);
+        });
+        attachProjectEvents(); attachImageEditEvents(); attachTextEditEvents();
+    }
+
+    function attachTextEditEvents() { if(editMode) document.querySelectorAll('[data-field]').forEach(el => { el.addEventListener('blur', function(){ let id = parseInt(this.dataset.id); let field = this.dataset.field; let proj = projectsData.find(p=>p.id===id); if(proj){ if(field==='title') currentLang==='es'? proj.titleEs=this.innerText : proj.titleEn=this.innerText; else if(field==='desc') currentLang==='es'? proj.descEs=this.innerText : proj.descEn=this.innerText; else proj[field]=this.innerText; saveAllData(); } }); }); }
+    function attachProjectEvents() { document.querySelectorAll('.btn-project').forEach(btn => { btn.removeEventListener('click', projectClickHandler); btn.addEventListener('click', projectClickHandler); }); }
+    function projectClickHandler(e) { let id = parseInt(e.currentTarget.dataset.view); let proj = projectsData.find(p=>p.id===id); if(proj) openProjectModal(proj); }
+
+    // Modal galería premium fullscreen + gestión imágenes
+    let currentModalProject = null;
+    function openProjectModal(proj) {
+        currentModalProject = proj;
+        const modalDiv = document.createElement('div'); modalDiv.className = 'modal-overlay'; modalDiv.id = 'projectModal';
+        modalDiv.innerHTML = `<div class="modal-container"><button class="close-modal">&times;</button><h2 contenteditable="${editMode}" id="modalTitle">${currentLang==='es'?proj.titleEs:proj.titleEn}</h2><div><i class="fas fa-map-marker-alt"></i> <span id="modalUbicacion" contenteditable="${editMode}">${proj.ubicacion}</span> &nbsp; <i class="fas fa-calendar"></i> <span id="modalAno" contenteditable="${editMode}">${proj.año}</span> &nbsp; <i class="fas fa-code-branch"></i> <span id="modalPrograma" contenteditable="${editMode}">${proj.programa}</span></div><p id="modalDesc" contenteditable="${editMode}">${currentLang==='es'?proj.descEs:proj.descEn}</p><div class="gallery-grid" id="galleryGrid"></div><div class="gallery-controls"><button id="addImageBtn" class="btn-primary" style="padding:0.4rem 1rem;">+ Agregar imagen</button></div></div>`;
+        document.body.appendChild(modalDiv); modalDiv.classList.add('active');
+        refreshGalleryGrid(proj);
+        modalDiv.querySelector('.close-modal').onclick = () => { modalDiv.remove(); };
+        document.getElementById('addImageBtn').onclick = () => { if(editMode) addImageToGallery(proj); else alert("Activa modo edición para añadir imágenes"); };
+        ['modalTitle','modalUbicacion','modalAno','modalPrograma','modalDesc'].forEach(id => { let el = modalDiv.querySelector(`#${id}`); if(el) el.addEventListener('blur', () => { if(editMode){ if(id==='modalTitle') currentLang==='es'? proj.titleEs=el.innerText : proj.titleEn=el.innerText; else if(id==='modalDesc') currentLang==='es'? proj.descEs=el.innerText : proj.descEn=el.innerText; else if(id==='modalUbicacion') proj.ubicacion=el.innerText; else if(id==='modalAno') proj.año=el.innerText; else if(id==='modalPrograma') proj.programa=el.innerText; saveAllData(); renderProjects(); } }); });
+    }
+    function refreshGalleryGrid(proj) { let grid = document.getElementById('galleryGrid'); if(!grid) return; grid.innerHTML = ''; (proj.galleryImages || []).forEach((imgUrl, idx) => { let div = document.createElement('div'); div.style.position='relative'; div.innerHTML = `<img src="${imgUrl}" class="gallery-thumb" data-fullimg="${imgUrl}"><div class="gallery-controls" style="margin-top:6px;">${editMode ? `<button class="moveUp" data-idx="${idx}">↑</button><button class="moveDown" data-idx="${idx}">↓</button><button class="deleteImg" data-idx="${idx}">🗑️</button>` : ''}</div>`; grid.appendChild(div); });
+        if(editMode){ document.querySelectorAll('.moveUp').forEach(btn=>btn.onclick=()=>{ let i=parseInt(btn.dataset.idx); if(i>0){ let arr=proj.galleryImages; [arr[i-1],arr[i]]=[arr[i],arr[i-1]]; saveAllData(); refreshGalleryGrid(proj); } }); document.querySelectorAll('.moveDown').forEach(btn=>btn.onclick=()=>{ let i=parseInt(btn.dataset.idx); let arr=proj.galleryImages; if(i<arr.length-1){ [arr[i+1],arr[i]]=[arr[i],arr[i+1]]; saveAllData(); refreshGalleryGrid(proj); } }); document.querySelectorAll('.deleteImg').forEach(btn=>btn.onclick=()=>{ let i=parseInt(btn.dataset.idx); proj.galleryImages.splice(i,1); saveAllData(); refreshGalleryGrid(proj); }); }
+        document.querySelectorAll('.gallery-thumb').forEach(img=>{ img.onclick=()=>{ openLightbox(img.dataset.fullimg, proj.galleryImages); }; });
+    }
+    function addImageToGallery(proj){ let input=document.createElement('input'); input.type='file'; input.accept='image/*'; input.onchange=e=>{ let file=e.target.files[0]; let reader=new FileReader(); reader.onload=ev=>{ proj.galleryImages.push(ev.target.result); saveAllData(); refreshGalleryGrid(proj); }; reader.readAsDataURL(file); }; input.click(); }
+    function openLightbox(src, allImages){ let lb=document.createElement('div'); lb.className='lightbox'; lb.innerHTML=`<button style="position:absolute;top:20px;right:30px;background:white;border:none;font-size:2rem;cursor:pointer;">✕</button><img src="${src}" id="lbImg"><button id="prevLb" style="position:absolute;left:20px;top:50%;background:rgba(0,0,0,0.5);color:white;padding:1rem;">‹</button><button id="nextLb" style="position:absolute;right:20px;top:50%;background:rgba(0,0,0,0.5);color:white;padding:1rem;">›</button>`; document.body.appendChild(lb); lb.classList.add('active'); let idx=allImages.indexOf(src); function updateImg(){ document.getElementById('lbImg').src=allImages[idx]; } lb.querySelector('.close-modal')?.addEventListener('click',()=>lb.remove()); lb.querySelector('#prevLb')?.addEventListener('click',()=>{ if(idx>0) idx--; else idx=allImages.length-1; updateImg(); }); lb.querySelector('#nextLb')?.addEventListener('click',()=>{ if(idx<allImages.length-1) idx++; else idx=0; updateImg(); }); lb.onclick=e=>{if(e.target===lb) lb.remove();}; }
+    
+    // Modo edición global
+    function toggleEditMode() { if(!editMode){ let pwd=prompt("Contraseña de edición:"); if(pwd!==EDIT_PASSWORD) return; } editMode=!editMode; document.body.classList.toggle('edit-mode-active',editMode); document.querySelectorAll('[contenteditable]').forEach(el=>el.contentEditable=editMode); renderProjects(); attachImageEditEvents(); attachTextEditEvents(); document.getElementById('editModeBtn').style.background=editMode?"#6B705C":"#1E1E1E"; }
+    function attachImageEditEvents(){ if(editMode) document.querySelectorAll('.editable-img').forEach(img=>{ img.style.cursor='pointer'; img.onclick=(e)=>{ let input=document.createElement('input'); input.type='file'; input.accept='image/*'; input.onchange=ev=>{ let file=ev.target.files[0]; let reader=new FileReader(); reader.onload=event=>{ img.src=event.target.result; if(img.id==='heroImage') localStorage.setItem('hero_image',event.target.result); if(img.id==='profilePhoto') localStorage.setItem('profile_image',event.target.result); if(img.id==='qrImage') localStorage.setItem('qr_image',event.target.result); if(img.classList.contains('card-img')){ let card=img.closest('.project-card'); let id=parseInt(card?.querySelector('.btn-project')?.dataset.view); let proj=projectsData.find(p=>p.id===id); if(proj){ proj.img=event.target.result; saveAllData(); renderProjects(); } } }; reader.readAsDataURL(file); }; input.click(); }; }); else document.querySelectorAll('.editable-img').forEach(img=>img.onclick=null); }
+    
+    function applyLanguage() { document.querySelectorAll('[data-i18n]').forEach(el=>{let key=el.dataset.i18n; if(translations[currentLang]?.[key]) el.innerText=translations[currentLang][key];}); renderProjects(); document.querySelectorAll('.lang-btn').forEach(btn=>{if(btn.dataset.lang===currentLang) btn.classList.add('active'); else btn.classList.remove('active');}); }
+    function loadPersistentEdits(){ let heroImg=localStorage.getItem('hero_image'); if(heroImg) document.getElementById('heroImage').src=heroImg; let profImg=localStorage.getItem('profile_image'); if(profImg) document.getElementById('profilePhoto').src=profImg; let qr=localStorage.getItem('qr_image'); if(qr) document.getElementById('qrImage').src=qr; ['contactPhone','contactEmail','contactLinkedin'].forEach(id=>{let val=localStorage.getItem(id); if(val) document.getElementById(id).innerText=val;}); let bio=localStorage.getItem('bioText'); if(bio) document.getElementById('bioText').innerText=bio; let philo=localStorage.getItem('philosophyText'); if(philo) document.getElementById('philosophyText').innerText=philo; }
+    function init(){ AOS.init({duration:800, once:true}); loadSavedData(); loadPersistentEdits(); applyLanguage(); document.querySelectorAll('.lang-btn').forEach(btn=>btn.addEventListener('click',()=>{currentLang=btn.dataset.lang; localStorage.setItem('lang',currentLang); applyLanguage();})); document.getElementById('editModeBtn').onclick=toggleEditMode; document.getElementById('scrollProjectsBtn').onclick=()=>document.getElementById('urbanismo').scrollIntoView({behavior:'smooth'}); document.getElementById('contactScrollBtn').onclick=()=>document.getElementById('contacto').scrollIntoView({behavior:'smooth'}); document.querySelectorAll('.quick-nav-btn').forEach(btn=>btn.onclick=()=>document.getElementById(btn.dataset.section).scrollIntoView({behavior:'smooth'})); document.querySelectorAll('[data-nav]').forEach(a=>a.addEventListener('click',(e)=>{e.preventDefault(); let id=a.dataset.nav; if(id==='inicio') window.scrollTo({top:0,behavior:'smooth'}); else if(id==='sobre') document.getElementById('sobre').scrollIntoView({behavior:'smooth'}); else if(id==='contacto') document.getElementById('contacto').scrollIntoView({behavior:'smooth'});})); document.getElementById('downloadCV').onclick=()=>alert("CV descargable (simulado) — LAJT Estudio"); ['contactPhone','contactEmail','contactLinkedin'].forEach(id=>{document.getElementById(id).addEventListener('blur',()=>localStorage.setItem(id,document.getElementById(id).innerText));}); document.getElementById('bioText').addEventListener('blur',()=>localStorage.setItem('bioText',document.getElementById('bioText').innerText)); document.getElementById('philosophyText').addEventListener('blur',()=>localStorage.setItem('philosophyText',document.getElementById('philosophyText').innerText)); attachImageEditEvents(); }
+    init();
+</script>
+</body>
+</html>
